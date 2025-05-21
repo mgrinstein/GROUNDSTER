@@ -2,7 +2,10 @@
 
 This project simulates a basic satellite that sends telemetry data (in JSON format) over a TCP socket to a ground station. It’s a minimal demo of how real-world space systems communicate telemetry from spacecraft to Earth.
 
----
+Example:
+![example](./output_example.png)
+
+
 ## Requirements
 
 ### C++ Satellite Simulator
