@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ground Station Simulator Dashboard</title>
+    <meta http-equiv="refresh" content="2">
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #0f111a;
+            color: #00ff90;
+            padding: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        th, td {
+            border: 1px solid #00ff90;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #1a1d2e;
+        }
+    </style>
+</head>
+<body>
+    <h1>📡 Ground Station - Satellite Telemetry Dashboard 🛰️</h1>
+    <table>
+        <tr>
+            <th>Timestamp</th><th>Battery</th><th>Temp</th><th>Pitch</th><th>Yaw</th><th>Roll</th>
+        </tr>
+        {% for entry in telemetry %}
+        <tr>
+            <td>{{ entry.timestamp }}</td>
+            <td>{{ entry.battery }}</td>
+            <td>{{ entry.temperature }}</td>
+            <td>{{ entry.orientation.pitch }}</td>
+            <td>{{ entry.orientation.yaw }}</td>
+            <td>{{ entry.orientation.roll }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
