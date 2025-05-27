@@ -2,9 +2,15 @@
 
 This project simulates a basic satellite that sends telemetry data (in JSON format) over a TCP socket to a ground station. It’s a minimal demo of how real-world space systems communicate telemetry from spacecraft to Earth.
 
-Example:
-![example](./output_example.png)
+![Telemetry](media/telemetry.gif)
 
+## Architecture
+
+```mermaid
+    graph TD
+        A["**Satellite Simulator (C++)** </br> Generates telemetry"] -- TCP (JSON stream - Port 9000) --> B["**Ground Station (Python)**" </br> Receives telemetry </br> Stores recent data </br> Serves dashboard ]
+        B -- HTTP (FastAPI - port 8000) --> C[**Web Browser UI** </br> Telemetry Dashboard]
+```
 
 ## Requirements
 
@@ -15,6 +21,7 @@ Example:
 
 ### Python Ground Station
 - Python 3.x
+- `fastapi`, `uvicorn`, `jinja2`
 
 ## Instructions
 
@@ -44,4 +51,12 @@ Back in the simulator terminal, run:
 cd satellite-simulator
 ./satellite_simulator
 ```
-You should see telemetry JSON being printed on the ground station side according to the configurations of the simulator.
+
+Telemetry will start being printed on the terminal:
+![Terminal](media/terminal.gif)
+
+
+It will also be received in the web interface dashboard (http://127.0.0.1:8000):
+
+![Dashboard](media/dashboard-screenshot.png)
+
