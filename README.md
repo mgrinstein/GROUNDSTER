@@ -1,6 +1,6 @@
-# SPACE LINK
+# GROUNDSTER - GROUND STATION TELEMETRY RECEIVER
 
-This project simulates a basic satellite that sends telemetry data (in JSON format) over a TCP socket to a ground station. It’s a minimal demo of how real-world space systems communicate telemetry from spacecraft to Earth.
+This project simulates a ground station receiving telemetry data from a satellite.
 
 ![Telemetry](media/telemetry.gif)
 
