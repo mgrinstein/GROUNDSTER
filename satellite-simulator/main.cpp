@@ -9,6 +9,7 @@
 #include <string>
 #include <random>
 #include <iomanip>
+#include <ctime>
 
 using namespace std;
 
@@ -25,19 +26,26 @@ std::string generateTelemetry() {
     static std::uniform_real_distribution<double> battery_change(-0.05, 0.0);
     static std::uniform_real_distribution<double> temp_change(-0.2, 0.2);
     static std::uniform_real_distribution<double> orientation_change(-1.0, 1.0);
-
     
     battery = std::max(0.0, battery + battery_change(rng));
     temp += temp_change(rng);
-
+    
     pitch += orientation_change(rng);
     yaw += orientation_change(rng);
     roll += orientation_change(rng);
 
-    ostringstream oss;
+    static auto base_time = std::chrono::system_clock::now();
+    static int seconds_elapsed = 0;
+
+    auto current_time = base_time + std::chrono::seconds(seconds_elapsed);
+    std::time_t current_time_t = std::chrono::system_clock::to_time_t(current_time);
+    std::tm *gmt = std::gmtime(&current_time_t);
+
+    std::ostringstream oss;
     oss << std::fixed << std::setprecision(2);
     oss << "{"
-        << "\"timestamp\": \"2025-05-03T14:32:00Z\","
+        << "\"timestamp\": \"" 
+        << std::put_time(gmt, "%FT%TZ") << "\","
         << "\"battery\":" << battery << ","
         << "\"temperature\":" << temp << ","
         << "\"orientation\":{"
@@ -46,8 +54,11 @@ std::string generateTelemetry() {
             << "\"roll\":" << roll
         << "}"
         << "}";
+
+    seconds_elapsed++;  // increment for next call
     return oss.str();
 }
+
 
 int main()
 {
