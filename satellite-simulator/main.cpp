@@ -6,22 +6,46 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string>
+#include <random>
+#include <iomanip>
 
 using namespace std;
 
-string generateTelemetry()
-{
+
+std::string generateTelemetry() {
+    static std::default_random_engine rng(std::random_device{}());
+    static double battery = 100.0;
+    static double temp = 20.0;
+
+    static double pitch = 0.0;
+    static double yaw = 0.0;
+    static double roll = 0.0;
+
+    static std::uniform_real_distribution<double> battery_change(-0.05, 0.0);
+    static std::uniform_real_distribution<double> temp_change(-0.2, 0.2);
+    static std::uniform_real_distribution<double> orientation_change(-1.0, 1.0);
+
+    
+    battery = std::max(0.0, battery + battery_change(rng));
+    temp += temp_change(rng);
+
+    pitch += orientation_change(rng);
+    yaw += orientation_change(rng);
+    roll += orientation_change(rng);
+
     ostringstream oss;
-    oss << R"({)"
-        << R"("timestamp": "2025-05-03T14:32:00Z", )"
-        << R"("battery": )" << 75.0 + (rand() % 1000) / 100.0 << ", "
-        << R"("temperature": )" << 20 + (rand() % 1000) / 100.0 << ", "
-        << R"("orientation": {)"
-        << R"("pitch": )" << -10 + (rand() % 200) / 10.0 << ", "
-        << R"("yaw": )" << -10 + (rand() % 200) / 10.0 << ", "
-        << R"("roll": )" << -10 + (rand() % 200) / 10.0
-        << R"(})"
-        << R"(})";
+    oss << std::fixed << std::setprecision(2);
+    oss << "{"
+        << "\"timestamp\": \"2025-05-03T14:32:00Z\","
+        << "\"battery\":" << battery << ","
+        << "\"temperature\":" << temp << ","
+        << "\"orientation\":{"
+            << "\"pitch\":" << pitch << ","
+            << "\"yaw\":" << yaw << ","
+            << "\"roll\":" << roll
+        << "}"
+        << "}";
     return oss.str();
 }
 
