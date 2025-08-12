@@ -27,8 +27,8 @@ This project simulates a ground station receiving telemetry data from a satellit
 
 ### 1. Clone this repository
 ```bash
-git clone https://github.com/mgrinstein/space-link.git
-cd space-link
+git clone https://github.com/mgrinstein/GROUNDSTER.git
+cd GROUNDSTER
 ```
 
 ### 2. Compile the Satellite Simulator (Telemetry sender)
@@ -48,7 +48,6 @@ python3 main.py
 ### 4. Run the Satellite Simulator
 Back in the simulator terminal, run:
 ```bash
-cd satellite-simulator
 ./satellite_simulator
 ```
 
